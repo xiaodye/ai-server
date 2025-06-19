@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { db } from '../db/neon';
 import { usersTable } from '../db/schema/schema';
+import { db } from '../db/supabase';
 
 @Injectable()
 export class AppService {
