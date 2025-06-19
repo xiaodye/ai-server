@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { db } from './db';
-import { usersTable } from './db/schema/schema';
 import { eq } from 'drizzle-orm';
+import { db } from '../db/neon';
+import { usersTable } from '../db/schema/schema';
 
 @Injectable()
 export class AppService {
@@ -13,7 +13,7 @@ export class AppService {
     const user: typeof usersTable.$inferInsert = {
       name: 'lansen',
       age: 30,
-      email: 'sen@example.com',
+      email: 'senlan@example.com',
       password: '123456',
     };
 
