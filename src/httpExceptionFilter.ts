@@ -20,7 +20,6 @@ export class httpExceptionFilter implements ExceptionFilter {
       data: {
         requestQuery: request.query,
         requestParam: request.params,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         requestBody: request.body,
       },
       time: new Date().getTime(),
