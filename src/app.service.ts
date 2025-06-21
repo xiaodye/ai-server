@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { eq } from 'drizzle-orm';
-import { usersTable } from '../db/schema/schema';
 import { db } from '../db/supabase';
+import { users } from '../drizzle/schema';
 
 @Injectable()
 export class AppService {
@@ -10,17 +10,17 @@ export class AppService {
   }
 
   async createUser() {
-    const user: typeof usersTable.$inferInsert = {
-      name: 'lansen',
+    const user: typeof users.$inferInsert = {
+      name: 'john',
       age: 30,
-      email: 'senlan@example.com',
+      email: 'john@example.com',
       password: '123456',
     };
 
-    await db.insert(usersTable).values(user);
+    await db.insert(users).values(user);
     console.log('New user created!');
-    const users = await db.select().from(usersTable);
-    console.log('Getting all users from the database: ', users);
+    const userList = await db.select().from(users);
+    console.log('Getting all users from the database: ', userList);
     /*
     const users: {
       id: number;
@@ -30,20 +30,34 @@ export class AppService {
     }[]
     */
     await db
-      .update(usersTable)
+      .update(users)
       .set({
         age: 31,
       })
-      .where(eq(usersTable.email, user.email));
+      .where(eq(users.email, user.email));
     console.log('User info updated!');
 
-    await db.delete(usersTable).where(eq(usersTable.email, user.email));
+    await db.delete(users).where(eq(users.email, user.email));
     console.log('User deleted!');
 
     return {
       code: 200,
       message: 'success',
-      data: users,
+      data: userList,
+    };
+  }
+
+  async getUsers(): Promise<{
+    code: number;
+    message: string;
+    users: (typeof users.$inferSelect)[];
+  }> {
+    const userList = await db.select().from(users);
+
+    return {
+      code: 200,
+      message: 'success',
+      users: userList,
     };
   }
 }

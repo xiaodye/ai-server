@@ -14,4 +14,13 @@ export class AppController {
   createUser() {
     return this.appService.createUser();
   }
+
+  /**
+   * 查询所有用户
+   * @returns
+   */
+  @Get('users')
+  getUsers() {
+    return this.appService.getUsers();
+  }
 }
